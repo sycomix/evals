@@ -113,12 +113,13 @@ class ModelBasedClassify(evals.Eval):
         counts = dict(Counter(choices))
         record_metrics.update({f"counts/{k}": v for k, v in counts.items()})
 
-        # record the scores
-        scores = [m["score"] for m in all_sample_metrics if m["score"] is not None]
-        if scores:
-            record_metrics[f"score"] = sum(scores) / len(scores)
-        metascores = [m["metascore"] for m in all_sample_metrics if "metascore" in m]
-        if metascores:
-            record_metrics[f"metascore"] = sum(metascores) / len(metascores)
+        if scores := [
+            m["score"] for m in all_sample_metrics if m["score"] is not None
+        ]:
+            record_metrics["score"] = sum(scores) / len(scores)
+        if metascores := [
+            m["metascore"] for m in all_sample_metrics if "metascore" in m
+        ]:
+            record_metrics["metascore"] = sum(metascores) / len(metascores)
 
         return record_metrics

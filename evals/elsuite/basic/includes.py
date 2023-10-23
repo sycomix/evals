@@ -30,7 +30,8 @@ class Includes(evals.Eval):
         sampled = result.get_completions()[0]
 
         includes_answer = any(
-            [utils.get_answer(sampled, ref, self.ignore_case) for ref in sample["ideal"]]
+            utils.get_answer(sampled, ref, self.ignore_case)
+            for ref in sample["ideal"]
         )
         evals.record.record_metrics(accuracy=float(includes_answer))
         return includes_answer
